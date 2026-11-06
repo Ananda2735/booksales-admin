@@ -3,6 +3,7 @@ import { useState } from 'react'
 import api from './api'
 import Genre from './pages/Genre'
 import Author from './pages/Author'
+import Register from './pages/Register'
 import './App.css'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showRegister, setShowRegister] = useState(false)
 
   // Login admin
   const handleLogin = async (e) => {
@@ -64,7 +66,16 @@ function App() {
     setPassword('')
   }
 
-  // Tampilan login
+  // Halaman registrasi
+  if (!token && showRegister) {
+    return (
+      <Register
+        onBackToLogin={() => setShowRegister(false)}
+      />
+    )
+  }
+
+  // Halaman login
   if (!token) {
     return (
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
@@ -110,12 +121,27 @@ function App() {
             >
               {loading ? 'Memproses...' : 'Login'}
             </button>
+
+            <div className="text-center mt-3">
+              <span className="text-secondary">
+                Belum punya akun?
+              </span>
+              {' '}
+              <button
+                type="button"
+                className="btn btn-link p-0 text-decoration-none fw-bold"
+                onClick={() => setShowRegister(true)}
+              >
+                Daftar sekarang
+              </button>
+            </div>
           </form>
         </div>
       </div>
     )
   }
 
+  // Dashboard admin
   return (
     <div className="d-flex min-vh-100">
       <aside className="sidebar p-4 text-white">
